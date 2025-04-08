@@ -1,0 +1,389 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PSMD:SEARCH</title>
+    <style>
+        body {
+            font-family: Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            padding-top: 80px;
+            background-image: url('PSMD BG.png'); 
+    		background-size: cover;
+    		background-position: center; 
+    		background-repeat: no-repeat; 
+    		background-attachment: fixed;
+            }        
+            .header {
+            background: rgba(4,56,106,255);
+            color: white;
+            font-size: 56.6px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 13px 20px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            border-bottom: 3px solid black;
+        }
+        .header-title {	
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 56.6px;
+            font-weight: bold;
+        }
+        .menu-container {
+            display: flex;
+            align-items: center;
+        }
+        .menu-btn {
+            font-size: 30px;
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+        }
+        .dropdown {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 10px;
+    background: #04386a;
+    border: 1px solid white; 
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+    width: 150px;
+        }
+        .dropdown button {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            background: #04386a;
+            text-align: left;
+            cursor: pointer;
+            font-size: 20px;
+            font-weight: bold;
+            color: white;
+            transition: all 0.3s ease-in-out;
+            border: 1px solid white;
+        }
+        .dropdown button:hover {
+            background: #3a8fd5;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+    		transform: scale(1.05);
+        }
+        .top-buttons {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            padding-right: 40px;
+        }
+        .top-buttons button {
+            background: #57a8eb;
+            color: white;
+            border: none;
+            padding: 15px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 18px;
+            font-weight: bold;
+            }
+            .user-info {
+            position: absolute;
+            right: 0px;
+            top: 80px;
+            background: #d3d3d3;
+            padding: 15px;
+            font-style: italic;
+       }
+      .search-header {
+            background: rgba(4,56,106,0.9);
+            padding: 15px;
+            margin-bottom: 20px;
+            margin-top: 90px;
+            border: 2px solid black;
+            width: 80%;   
+            border-radius: 4px;
+            margin-left: 173px;
+            box-shadow: 0px 0px 10px #ccc;
+        }
+
+        .search-fields {
+            display: grid;
+            grid-template-columns: 180px 1fr;
+            gap: 8px;
+            align-items: center;
+            margin-bottom: 10px;
+            
+        }
+
+        .search-fields label {
+            color: #FFFFFF;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .search-fields input, .search-fields select {
+            width: 98%;
+            padding: 8px;
+            border: 1px solid black;
+            border-radius: 4px;
+        }
+
+.comparison-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    justify-content: center;
+}
+
+.comparison-column {
+    background: rgba(4,56,106,0.9);
+    padding: 31px;
+    flex: 1;
+    min-width: 250px;
+    max-width: 300px;
+    border-radius: 6px;
+    box-shadow: 0px 0px 10px #ccc;
+    color: #FFFFFF;
+    border: 2px solid black;
+    margin-right: 5px;
+    }
+    .checkbox-group label {
+    font-size: 14px;
+    font-weight: normal;
+    
+}
+
+.comparison-column h2 {
+    color: #FFFFFF;
+    font-size: 17px;
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+.field-group {
+    margin-bottom: 5px;
+    
+}
+
+.field-group label {
+    display: block;
+    margin-bottom: 3px;
+    margin-top: 7px;
+    color: #FFFFFF;
+    font-size: 14px;
+    
+}
+
+.field-group input[type="text"],
+.field-group input[type="number"] {
+    width: 100%;
+    padding: 6px;
+    border: 1px solid black;
+    border-radius: 4px;
+}
+
+.specs-text {
+    width: 100%;
+    padding: 6px;
+    border: 1px solid black;
+    border-radius: 4px;
+    resize: vertical;
+    min-height: 80px;
+    font-size: 14px;
+    line-height: 1.4;
+    Margin-top: 5px;
+    
+}
+
+@media (max-width: 1000px) {
+    .comparison-grid {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .comparison-column {
+        max-width: 90%;
+    }
+}
+        /* Copy tooltip */
+        .copyable {
+            position: relative;
+        }
+
+        .copyable::after {
+            content: 'Click to copy';
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 4px 8px;
+            background: #333;
+            color: white;
+            border-radius: 4px;
+            font-size: 12px;
+            opacity: 0;
+            transition: opacity 0.2s;
+            pointer-events: none;
+        }
+        .copyable:hover::after {
+            opacity: 1;
+            }
+        
+    </style>
+    <script>
+        function toggleMenu() {
+            var menu = document.getElementById("dropdown-menu");
+            menu.style.display = (menu.style.display === "block") ? "none" : "block";
+        }
+        window.onclick = function(event) {
+            if (!event.target.matches('.menu-btn')) {
+                var dropdowns = document.getElementsByClassName("dropdown");
+                for (var i = 0; i < dropdowns.length; i++) {
+                    var openDropdown = dropdowns[i];
+                    if (openDropdown.style.display === "block") {
+                        openDropdown.style.display = "none";
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body>
+  <div class="header">
+        <div class="menu-container">
+            <button class="menu-btn" onclick="toggleMenu()">☰</button>
+            <div class="dropdown" id="dropdown-menu">
+                <button onclick="location.href='Underconstruction Inventory.html'">INVENTORY</button>
+                <button onclick="location.href='Underconstruction Evaluation.html'">EVALUATION</button>
+                <button onclick="location.href='Underconstruction Price Index.html'">PRICE INDEX</button>
+                <button onclick="location.href='PSMD MAIN.html'">PSMD MAIN</button>
+
+                
+            </div>
+        </div>
+        <span class="header-title">PSMD: SEARCH</span>
+        <div class="top-buttons">
+            <button>HOME</button>
+            <button>CONTACT</button>
+            <button>LOG OUT</button>
+        </div>
+    </div>
+    <div class="user-info">FULL NAME <br> DIVISION ASSIGNED</div>
+     <div class="search-header">
+        <div class="search-fields">
+            <label>ITEM NAME:</label>
+            <input type="text">
+            
+            <label>TOTAL COST:</label>
+            <input type="number">
+            
+            <label>SPECIFICATIONS:</label>
+            <input type="text">
+        </div>
+    </div>
+
+    <div class="comparison-grid">
+        <div class="comparison-column">
+            <h2>PPMP</h2>
+            <div class="field-group">
+                <input type="text" class="input-field" placeholder="(ID Number)" readonly class="copyable">
+            </div>
+            <div class="field-group">
+                <input type="text" value="Project Name" readonly class="copyable">
+            </div>
+            <div class="field-group">
+                <input type="text" value="1. Item" readonly class="copyable">
+            </div>
+            <div class="field-group">
+                <input type="text" value="Amount" readonly class="copyable">
+            </div>
+            <div class="field-group">
+                <input type="text" value="Qty" style="width: 100px; display: inline-block" readonly class="copyable">
+                <input type="text" value="Unit Cost" style="width: 100px; display: inline-block; margin-left: 					10px" readonly class="copyable">
+                <textarea class="specs-text copyable Specifications" readonly></textarea>
+            </div>
+        </div>
+
+                <div class="comparison-column">
+            <h2>CANVASS 1</h2>
+            
+            <div class="field-group">
+                <input type="text" value="Source" readonly class="copyable">
+            </div>
+            <div class="checkbox-group">
+                <label>END-USER CANVASS:</label>
+                <input type="checkbox">
+            </div>
+            <div class="field-group">
+                <label>PRICE:</label>
+                <input type="text" value="₱" readonly class="copyable">
+            </div>
+            <div class="field-group">
+                <label>MARKUP:</label>
+                <input type="text" value="₱" readonly class="copyable">
+                <textarea class="specs-text" readonly></textarea>
+            </div>
+        </div>
+
+        <div class="comparison-column">
+            <h2>CANVASS 2</h2>
+            <div class="field-group">
+                <input type="text" value="Source" readonly class="copyable">
+            </div>
+            <div class="checkbox-group">
+                <label>END-USER CANVASS:</label>
+                <input type="checkbox">
+            </div>
+            <div class="field-group">
+                <label>PRICE:</label>
+                <input type="text" value="₱" readonly class="copyable">
+            </div>
+            <div class="field-group">
+                <label>MARKUP:</label>
+                <input type="text" value="₱" readonly class="copyable">
+            <textarea class="specs-text" readonly>
+</textarea>
+            </div>
+        </div>
+
+        <div class="comparison-column">
+            <h2>CANVASS 3</h2>
+            <div class="field-group">
+                <input type="text" value="Source" readonly class="copyable">
+            </div>
+            <div class="checkbox-group">
+                <label>END-USER CANVASS:</label>
+                <input type="checkbox">
+            </div>
+            <div class="field-group">
+                <label>PRICE:</label>
+                <input type="text" value="₱" readonly class="copyable">
+            </div>
+            <div class="field-group">
+                <label>MARKUP:</label>
+                <input type="text" value="₱" readonly class="copyable">
+                <textarea class="specs-text" readonly></textarea>
+                
+            </div>
+        </div>
+
+        
+    </div>
+</body>
+</html>
+
+
+
+

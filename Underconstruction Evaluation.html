@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PSMD:EVALUATION</title>
+    <style>
+        body {
+            font-family: Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            padding-top: 80px;
+            background-image: url('PSMD BG.png'); 
+    		background-size: cover;
+    		background-position: center; 
+    		background-repeat: no-repeat; 
+    		background-attachment: fixed;
+            }        
+            .header {
+            background: rgba(4,56,106,255);
+            color: white;
+            font-size: 56.6px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 13px 20px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            border-bottom: 3px solid black;
+        }
+        .header-title {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 56.6px;
+            font-weight: bold;
+        }
+        .menu-container {
+            display: flex;
+            align-items: center;
+        }
+        .menu-btn {
+            font-size: 30px;
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+        }
+        .dropdown {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 10px;
+    background: #04386a;
+    border: 1px solid white; 
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+    width: 150px;
+        }
+        .dropdown button {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            background: #04386a;
+            text-align: left;
+            cursor: pointer;
+            font-size: 20px;
+            font-weight: bold;
+            color: white;
+            transition: all 0.3s ease-in-out;
+            border: 1px solid white;
+        }
+        .dropdown button:hover {
+            background: #3a8fd5;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+    		transform: scale(1.05); 
+        }
+        .top-buttons {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            padding-right: 40px;
+        }
+        .top-buttons button {
+            background: #57a8eb;
+            color: white;
+            border: none;
+            padding: 15px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 18px;
+            font-weight: bold;
+            }
+            .user-info {
+            position: absolute;
+            right: 0px;
+            top: 80px;
+            background: #d3d3d3;
+            padding: 15px;
+            font-style: italic;
+            }
+            .form-container {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            background: rgba(4,56,106,0.9);
+            color: white;
+            padding: 50px;
+            border: 2px solid black;
+            margin-top: 78px;
+            box-shadow: 0px 0px 10px #ccc;
+    }
+    .top-section {
+      display: flex;
+      margin-bottom: 10px;
+      
+    }
+    .left-section {
+      flex: 6;
+      padding-right: 10px;
+    }
+    .right-section {
+      flex: 6;
+      background: rgba(4,56,106,0);
+      padding-left: 10px;
+    }
+    .field {
+      width: 700px; 
+      margin-bottom: 4px;
+      display: flex;
+    }
+    .field label {
+      width: 120px;
+      font-size: 14px;
+      line-height: 30px;
+    }
+    .field input, .field select {
+      flex: 1;
+      height: 30px;
+      box-sizing: border-box;
+    }
+    .notes {
+      width: 82%;
+      height: 80px;
+    }
+    .verification-container {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 50px;
+    }
+    .verification-header {
+      flex: 1;
+      
+    }
+    .verification-title {
+      margin-bottom: 25px;
+      color: white;
+    }
+    .verification-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .verification-list {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .verification-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 5px;
+    }
+    .verification-item input[type="checkbox"] {
+      margin-right: 10px;
+      
+    }
+    .button {
+      width: 300px;
+      padding: 10px;
+      background-color: #57a8eb;
+      color: white;
+      border-radius: 4px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease-in-out;
+      border: 2px solid black;
+    }
+    .button:hover {
+      background: #3a8fd5; 
+    	box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3); 
+    	transform: scale(1.05); 
+    }
+    .remarks-container {
+      margin-top: 9px;
+    }
+    .remarks {
+      width: 130%;
+      height: 82px;
+      resize: vertical;
+    }
+         .canvass-table {
+            width: 100%;
+            border-collapse: collapse;
+            border: 2px solid #ffffff;
+            margin-top: 30px;
+        }
+        
+        .canvass-table th {
+            background-color: #003366;
+            color: white;
+            padding: 8px;
+            text-align: center;
+            font-size: 20px;
+            border: 1px solid white;
+            
+        }
+        
+        .canvass-table td {
+            padding: 5px;
+            border: 1px solid #cccccc;
+            vertical-align: top;
+        }
+        
+        .header-row {
+            background-color: #003366;
+        }
+        
+        .search-bar {
+            display: flex;
+            align-items: center;
+            padding: 5px;
+            background-color: white;
+            border-bottom: 1px solid #cccccc;
+            border: 1px solid #000000;
+        }
+        
+        .search-bar select, .search-bar input {
+            margin-right: 5px;
+            padding: 5px;
+            border: 1px solid #000000;
+        }
+        
+        .search-bar button {
+            background-color: #57a8eb;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 3px;
+            border: 2px solid black;
+            transition: all 0.3s ease-in-out;
+        }
+        .search-bar button:hover {
+          box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3); 
+    	    transform: scale(1.05);
+        }
+        .markup-buttons {
+            display: flex;
+            justify-content: space-between;
+        }
+        .markup-button {
+            background-color: #ffeeb5;
+            padding: 5px;
+            text-align: center;
+            flex: 1;
+            border: 1px solid #000000;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+        }
+        
+        .markup-button:hover {
+            background-color: #ffd980;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3); 
+    	      transform: scale(1.05);
+        }
+        
+        .markup-button.active {
+            background-color: #ffc107;
+            font-weight: bold;
+        }
+        
+        .id-project {
+            display: flex;
+            justify-content: space-between;
+            background-color: #f9f9f9;
+        }
+        
+        .id-project div {
+            flex: 1;
+            border-right: 1px solid #cccccc;
+            text-align: center;
+            font-weight: bold;
+            font-style: italic;
+            justify-content: space-between;
+        }
+        
+        input[type="text"], textarea {
+            width: 89%;
+            padding: 10px;
+            border: 1px solid #000000;
+        }
+        
+        textarea {
+            width: 94%;
+            height: 200px;
+            resize: vertical;
+        }
+        
+        .readonly {
+            background-color: #f5f5f5;
+            
+        }
+        
+        .input-cell {
+            padding: 5px;
+            
+        }  
+
+    
+    </style>
+    <script>
+        function toggleMenu() {
+            var menu = document.getElementById("dropdown-menu");
+            menu.style.display = (menu.style.display === "block") ? "none" : "block";
+        }
+        window.onclick = function(event) {
+            if (!event.target.matches('.menu-btn')) {
+                var dropdowns = document.getElementsByClassName("dropdown");
+                for (var i = 0; i < dropdowns.length; i++) {
+                    var openDropdown = dropdowns[i];
+                    if (openDropdown.style.display === "block") {
+                        openDropdown.style.display = "none";
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body>
+  <div class="header">
+        <div class="menu-container">
+            <button class="menu-btn" onclick="toggleMenu()">☰</button>
+            <div class="dropdown" id="dropdown-menu">
+                <button onclick="location.href='Underconstruction Inventory.html'">INVENTORY</button>
+                <button onclick="location.href='Underconstruction Search.html'">SEARCH</button>
+                <button onclick="location.href='Underconstruction Price Index.html'">PRICE INDEX</button>
+                <button onclick="location.href='PSMD MAIN.html'">PSMD MAIN</button>
+                
+            </div>
+        </div>
+        <span class="header-title">PSMD: EVALUATION</span>
+        <div class="top-buttons">
+            <button>HOME</button>
+            <button>CONTACT</button>
+            <button>LOG OUT</button>
+        </div>
+    </div>
+    <div class="user-info">FULL NAME <br> DIVISION ASSIGNED</div> 
+    <div class="form-container">
+        <!-- Top Section -->
+        <div class="top-section">
+          <!-- Left Section - Form Fields -->
+          <div class="left-section">
+            <div class="field">
+              <select style="width:100%">
+                <option>Dropdown with search option</option>
+              </select>
+            </div>
+            <div class="field">
+              <label>PR NUMBER</label>
+              <input type="text">
+            </div>
+            <div class="field">
+              <label>OFFICE</label>
+              <input type="text">
+            </div>
+            <div class="field">
+              <label>EXPENDITURE</label>
+              <input type="text">
+            </div>
+            <div class="field">
+              <label>DESCRIPTION</label>
+              <input type="text">
+            </div>
+            <div class="field">
+              <label>CANVASSER 1</label>
+              <input type="text">
+            </div>
+            <div class="field">
+              <label>CANVASSER 2</label>
+              <input type="text">
+            </div>
+            <div class="field">
+              <label>STATUS</label>
+              <input type="text">
+            </div>
+            <div class="field">
+              <label>NOTES</label>
+              <textarea class="notes"></textarea>
+            </div>
+          </div>
+          
+          
+          <div class="right-section">
+            <div class="verification-container">
+              <!-- Verification header with title and buttons -->
+              <div class="verification-header">
+                <div class="verification-title">VERIFICATION:</div>
+              <!-- Verification checkboxes -->
+              <div class="verification-list">
+                <div class="verification-item">
+                  <input type="checkbox">
+                  <label>Call using number from quotation</label>
+                </div>
+                
+                <div class="verification-item">
+                  <input type="checkbox">
+                  <label>Call using number from website</label>
+                </div>
+                
+                <div class="verification-item">
+                  <input type="checkbox">
+                  <label>Call using number from social media</label>
+                </div>
+                
+                <div class="verification-item">
+                  <input type="checkbox">
+                  <label>Online Sources</label>
+                </div>
+                
+                <div class="verification-item">
+                  <input type="checkbox">
+                  <label>SEC</label>
+                </div>
+                
+                <div class="verification-item">
+                  <input type="checkbox">
+                  <label>DTI</label>
+                </div>
+                
+                <div class="verification-item">
+                  <input type="checkbox">
+                  <label>Exclusive to One Supplier</label>
+                </div>
+              </div>
+              <!-- Remarks section below the last checkbox -->
+              <div class="remarks-container">
+                <div>REMARKS:</div>
+                <textarea class="remarks"></textarea>
+              </div>
+            </div>
+              <div class="verification-buttons">
+                <button class="button">PRINT</button>
+                <button class="button">PRINT - DIRECT CONTRACTING</button>
+                <button class="button">SAVE</button>
+              </div>    
+            </div>
+          </div>
+        </div>
+        
+        <table class="canvass-table">
+          <!-- Header Row -->
+          <tr class="header-row">
+              <th style="width: 25%;">PPMP/PR</th>
+              <th style="width: 25%;">CANVASS 1</th>
+              <th style="width: 25%;">CANVASS 2</th>
+              <th style="width: 25%;">CANVASS 3</th>
+          </tr>
+          
+          <!-- Search Bar -->
+          <tr>
+              <td colspan="4">
+                  <div class="search-bar">
+                      <select>
+                        <option>C1,C2,C3</option>  
+                        <option>C1</option>
+                          <option>C2</option>
+                          <option>C3</option>
+                      </select>
+                      <input type="text" placeholder="ID">
+                      <button>Apply</button>
+                  </div>
+              </td>
+          </tr>
+          
+          <!-- Item and ID Row -->
+          <tr>
+              <td colspan="3" class="input-cell">
+                  <input type="text" placeholder="Item Name">
+              </td>
+              <td>
+                  <div class="id-project">
+                      <div>
+                          <input type="text" placeholder="ID#" class="readonly" readonly>
+                      </div>
+                      <div style="color: #e74c3c;">
+                          <input type="text" placeholder="Project Number" class="readonly" readonly>
+                      </div>
+                  </div>
+              </td>
+          </tr>
+          
+          <!-- Total Amount Row -->
+          <tr>
+              <td class="input-cell">
+                  <input type="text" placeholder="Total Amount">
+              </td>
+              <td class="input-cell">
+                <div style="display: flex;">
+                <div style="flex: 1; padding-right: 1px;">
+                    <input type="text" placeholder="Source">
+                </div>
+                <div style="flex: 1; padding-left: 1px;">
+                  <input type="text" placeholder="Link">
+              </div>
+          </div>
+              </td>
+              <td class="input-cell">
+                  <div style="display: flex;">
+                      <div style="flex: 1; padding-right: 1px;">
+                          <input type="text" placeholder="Source">
+                      </div>
+                      <div style="flex: 1; padding-left: 1px;">
+                          <input type="text" placeholder="Link">
+                      </div>
+                  </div>
+              </td>
+              <td class="input-cell">
+                  <div style="display: flex;">
+                      <div style="flex: 1; padding-right: 1px;">
+                          <input type="text" placeholder="Source">
+                      </div>
+                      <div style="flex: 1; padding-left: 1px;">
+                          <input type="text" placeholder="Link">
+                      </div>
+                  </div>
+              </td>
+          </tr>
+          
+          <!-- Qty and Unit Cost Row -->
+          <tr>
+            <td class="input-cell">
+              <div style="display: flex;">
+                <div style="flex: 1; padding-right: 1px;">
+                    <input type="text" placeholder="Qty">
+                </div>
+                <div style="flex: 1; padding-left: 1px;">
+                    <input type="text" placeholder="Unit Cost">
+                </div>
+            </div>
+              </td>
+              <td class="input-cell">
+                <div style="display: flex;">
+                  <div style="flex: 1; padding-right: 1px;">
+                      <input type="text" placeholder="Unit Cost">
+                  </div>
+                  <div style="flex: 1; padding-left: 1px;">
+                      <input type="text" placeholder="Mark up" readonly>
+                  </div>
+              </div>
+              </td>
+              <td class="input-cell">
+                  <div style="display: flex;">
+                      <div style="flex: 1; padding-right: 1px;">
+                          <input type="text" placeholder="Unit Cost">
+                      </div>
+                      <div style="flex: 1; padding-left: 1px;">
+                          <input type="text" placeholder="Mark up" readonly>
+                      </div>
+                  </div>
+              </td>
+              <td class="input-cell">
+                  <div style="display: flex;">
+                      <div style="flex: 1; padding-right: 1px;">
+                          <input type="text" placeholder="Unit Cost">
+                      </div>
+                      <div style="flex: 1; padding-left: 1px;">
+                          <input type="text" placeholder="Mark up" readonly>
+                      </div>
+                  </div>
+              </td>
+          </tr>
+          
+          <!-- Markup Options Row -->
+          <tr>
+              <td colspan="2"></td>
+              <td>
+                
+                  <div class="markup-buttons">
+                      <button class="markup-button" onclick="selectMarkup(this,  0)">EC</button>
+                      <button class="markup-button" onclick="selectMarkup(this, 0)">NM</button>
+                      <button class="markup-button" onclick="selectMarkup(this, 10)">10%</button>
+                      <button class="markup-button" onclick="selectMarkup(this, 30)">30%</button>
+                      <button class="markup-button" onclick="selectMarkup(this, 50)">50%</button>
+                  </div>
+              </td>
+              <td>
+                  <div class="markup-buttons">
+                      <button class="markup-button" onclick="selectMarkup(this, 0)">EC</button>
+                      <button class="markup-button" onclick="selectMarkup(this, 0)">NM</button>
+                      <button class="markup-button" onclick="selectMarkup(this, 10)">10%</button>
+                      <button class="markup-button" onclick="selectMarkup(this, 30)">30%</button>
+                      <button class="markup-button" onclick="selectMarkup(this, 50)">50%</button>
+                  </div>
+              </td>
+          </tr>
+          
+          <!-- Specifications Row -->
+          <tr>
+              <td>
+                  <textarea placeholder="Specifications"></textarea>
+              </td>
+              <td>
+                  <textarea placeholder="Specifications"></textarea>
+              </td>
+              <td>
+                  <textarea placeholder="Specifications"></textarea>
+              </td>
+              <td>
+                  <textarea placeholder="Specifications"></textarea>
+              </td>
+          </tr>
+      </table>
+  
+      <script>
+          function selectMarkup(button, value) {
+              // First, remove active class from all buttons in this group
+              const buttonGroup = button.parentElement;
+              const buttons = buttonGroup.getElementsByClassName('markup-button');
+              for (let i = 0; i < buttons.length; i++) {
+                  buttons[i].classList.remove('active');
+              }
+              
+              // Add active class to clicked button
+              button.classList.add('active');
+              
+              // Find the mark up input field and set its value
+              const row = buttonGroup.closest('tr').previousElementSibling;
+              const cell = buttonGroup.closest('td');
+              const cellIndex = Array.from(row.cells).indexOf(cell);
+              const markupInput = row.cells[cellIndex].querySelectorAll('input')[1];
+              
+              if (value === 0) {
+                  markupInput.value = "NM";
+              } else {
+                  markupInput.value = value + "%";
+              }
+          }
+      </script>
+</body>
+</html>

@@ -1,0 +1,236 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PSMD MAIN</title>
+    <style>
+        body {
+            font-family: Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url('PSMD BG.png'); 
+    		background-size: cover;
+    		background-position: center; 
+    		background-repeat: no-repeat; 
+    		background-attachment: fixed; 
+        }
+        .header {
+            background: rgba(4,56,106,255);
+            color: white;
+            text-align: center;
+            padding: 4px 0;
+            font-size: 56.6px;
+            font-weight: bold;
+            position: relative;
+            border-bottom: 3px solid black;
+        }
+        .menu-container {
+            position: absolute;
+            left: 10px;
+            top: 40%;
+            transform: translateY(-50%);
+        }
+        .menu-btn {
+            font-size: 30px;
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            
+        }
+        .dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            background: #04386a;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 150px;
+        }
+        .dropdown button {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            background: #04386a;
+            text-align: left;
+            cursor: pointer;
+            font-size: 20px;
+            font-weight: bold;
+            color: white;
+            transition: all 0.3s ease-in-out;
+            border: 1px solid white;
+        }
+        .dropdown button:hover {
+            background: #3a8fd5;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+    		transform: scale(1.05); 
+        }
+        .container {
+            display: flex;
+        }
+        .sidebar {
+            width: 250px;
+            padding: 30px;
+            padding-top: 88px;
+        }
+        .sidebar button {
+            width: 100%;
+            padding: 12px; 
+            margin-top: 10px;
+            border: none;
+            background: #04386a;
+            color: white;
+            font-size: 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease-in-out;
+            border: 2px solid black;
+            box-shadow: 0px 0px 10px #ccc;
+}
+            .sidebar button:hover {
+    		background: #3a8fd5; 
+    		box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+    		transform: scale(1.05); 
+        }
+        .content {
+            flex-grow: 1;
+            padding: 20px;
+            margin-top: 55px;
+            color: white;
+            
+        }
+        .table-container {
+            background: white;
+            padding: 0px;
+            border-radius: 5px;
+            margin-top: 10px;
+            
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 10px;
+            text-align: center;
+        }
+        th {
+            background: #04386a;
+            font-weight: bold;
+            color: white;
+            
+        }
+        .top-buttons {
+            position: absolute;
+            right: 20px;
+            top: 9px;
+        }
+        .top-buttons button {
+            background: #57a8eb;
+            color: white;
+            border: none;
+            padding: 15px;
+            margin: 5px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 18px;
+            Font-weight: bold;
+        }
+        .user-info {
+            position: absolute;
+            right: 0;
+            top: 80px;
+            background: #d3d3d3;
+            padding: 15px;
+            font-style: italic;
+        }
+    </style>
+    <script>
+        function toggleMenu() {
+            var menu = document.getElementById("dropdown-menu");
+            if (menu.style.display === "block") {
+                menu.style.display = "none";
+            } else {
+                menu.style.display = "block";
+            }
+        }
+        window.onclick = function(event) {
+            if (!event.target.matches('.menu-btn')) {
+                var dropdowns = document.getElementsByClassName("dropdown");
+                for (var i = 0; i < dropdowns.length; i++) {
+                    var openDropdown = dropdowns[i];
+                    if (openDropdown.style.display === "block") {
+                        openDropdown.style.display = "none";
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="header">
+        <div class="menu-container">
+            <button class="menu-btn" onclick="toggleMenu()">☰</button>
+            <div class="dropdown" id="dropdown-menu">
+                <button>DASD</button>
+                <button>RISD</button>
+                <button>DMD</button>
+                <button>TSD</button>
+            </div>
+        </div>
+        PSMD
+    </div>
+    <div class="top-buttons">
+        <button onclick="location.href='index.html'">HOME</button>
+		<button onclick="location.href='contact.html'">CONTACT</button>
+		<button onclick="location.href='logout.html'">LOG OUT</button>
+    </div>
+    <div class="user-info">FULL NAME <br> DIVISION ASSIGNED</div>
+    <div class="container">
+        <div class="sidebar">
+            <button onclick="location.href='Underconstruction Inventory.html'">INVENTORY</button>
+			<button onclick="location.href='Underconstruction Evaluation.html'">EVALUATION</button>
+			<button onclick="location.href='Underconstruction Search.html'">SEARCH</button>
+			<button onclick="location.href='Underconstruction Price Index.html'">PRICE INDEX</button>
+        </div>
+        <div class="content">
+            <h3>FOR CANVASS:</h3>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>PR NUMBER</th>
+                            <th>ABC</th>
+                            <th>EXPENDITURE</th>
+                            <th>STATUS</th>
+                            <th>DAYS</th>
+                            <th>CANVASSER 1</th>
+                            <th>CANVASSER 2</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+
+
+

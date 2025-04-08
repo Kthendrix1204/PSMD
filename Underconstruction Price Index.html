@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PSMD: PRICE INDEX</title>
+    <style>
+        body {
+            font-family: Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            padding-top: 80px;
+            background-image: url('PSMD BG.png'); 
+    		background-size: cover;
+    		background-position: center; 
+    		background-repeat: no-repeat; 
+    		background-attachment: fixed;
+        }
+        .header {
+            background: rgba(4,56,106,255);
+            color: white;
+            font-size: 56.6px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 13px 20px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            border-bottom: 3px solid black;
+        }
+        .header-title {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 56.6px;
+            font-weight: bold;
+        }
+        .menu-container {
+            display: flex;
+            align-items: center;
+        }
+        .menu-btn {
+            font-size: 30px;
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+        }
+        .dropdown {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 10px;
+    background: #04386a;
+    border: 1px solid white; 
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+    width: 150px;
+        }
+        .dropdown button {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            background: #04386a;
+            text-align: left;
+            cursor: pointer;
+            font-size: 20px;
+            font-weight: bold;
+            color: white;
+            transition: all 0.3s ease-in-out;
+            border: 1px solid white;
+        }
+        .dropdown button:hover {
+            background: #3a8fd5;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+    		transform: scale(1.05); 
+        }
+        .top-buttons {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            padding-right: 40px;
+        }
+        .top-buttons button {
+            background: #57a8eb;
+            color: white;
+            border: none;
+            padding: 15px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .container {
+            display: flex;
+            padding: 90px 20px 20px;
+            gap: 20px;
+    		align-items: flex-start;        
+	}
+        .sidebar {
+            width: 290px;
+    		background: rgba(4,56,106,0.8);
+    		padding: 10px; 
+    		border-radius: 5px;
+    		color: white;
+    		display: flex;
+    		flex-direction: column;
+    		gap: 2px; 
+    		height: auto;
+    		max-height: 100vh;
+    		overflow-y: hidden;
+    		border: 2px solid black;
+            box-shadow: 0px 0px 10px #ccc;
+        }
+        .sidebar label {
+            font-size: 14px;
+            font-weight: bold;
+        }
+        .sidebar input, 
+        .sidebar textarea {
+            width: calc(100% - 20px);
+            padding: 6px;
+            border: none;
+            border-radius: 5px;
+            margin-bottom: 5px;
+            font-size: 14px;
+            border: 1px solid black;
+        }
+        .sidebar textarea {
+            height: 50px;
+            resize: vertical;
+        }
+        .button-group {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 10px;
+            
+        }
+        .sidebar button {
+            width: 48%;
+            padding: 10px;
+            border: none;
+            background: #57a8eb;
+            color: white;
+            font-size: 14px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            border: 2px solid black;
+            transition: all 0.3s ease-in-out;
+            
+}
+	.sidebar button:hover {
+    	background: #3a8fd5; 
+    	box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3); 
+    	transform: scale(1.05);
+
+        }
+        .content {
+            flex-grow: 1;
+        }
+        .search-container {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        .search-container input {
+            flex: 1;
+            padding: 10px;
+            border: 2px solid black;
+            border-radius: 5px;
+        }
+        .table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+        }
+        .table-container {
+            overflow-x: auto;
+            max-height: 750px;
+            overflow-y: auto;
+            position: relative;
+            display: block;
+            border: 1px solid black;
+        }
+        table {
+    border-collapse: collapse; 
+    width: 100%;
+    font-size: 11px;
+    background-color: rgba(255, 255, 255, 0.9);
+    border: 1px solid black;
+        }
+      td, th {
+        padding: 3px; 
+    text-align: Center;
+    border: 1px solid black;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+        }
+        th {
+            background: #04386a;
+            Color: white;
+    	font-weight: bold;
+    	position: sticky;
+    	top: 0;
+    	z-index: 10;
+    	border: 1px solid black;
+           }
+       td:nth-child(3) { /* Target DESCRIPTION column */
+    width: 450px; 
+    max-height: 100px;  
+    overflow-y: auto;  
+    white-space: normal;  
+    word-wrap: break-word;  
+    display: table-cell; 
+    vertical-align: middle; 
+    padding: 5px;
+    border: 1px solid black;
+    text-align: Left;
+        }
+        tr:last-child td {
+    border-bottom: 1px solid black; 
+}
+        .user-info {
+            position: absolute;
+            right: 0px;
+            top: 80px;
+            background: #d3d3d3;
+            padding: 15px;
+            font-style: italic;   
+            }.delete-btn {
+            background: red;
+            color: white;
+            padding: 5px;
+            cursor: pointer;
+            border: none;
+            
+            }.delete-btn {
+            background: red;
+            color: white;
+            padding: 5px;
+            cursor: pointer;
+            border: none;
+        }
+        .delete-btn:disabled {
+            background: gray;
+            cursor: not-allowed;
+            
+            
+        }
+    </style>
+    <script>
+        function toggleMenu() {
+            var menu = document.getElementById("dropdown-menu");
+            menu.style.display = (menu.style.display === "block") ? "none" : "block";
+        }
+        window.onclick = function(event) {
+            if (!event.target.matches('.menu-btn')) {
+                var dropdowns = document.getElementsByClassName("dropdown");
+                for (var i = 0; i < dropdowns.length; i++) {
+                    var openDropdown = dropdowns[i];
+                    if (openDropdown.style.display === "block") {
+                        openDropdown.style.display = "none";
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body>	
+    <div class="header">
+        <div class="menu-container">
+            <button class="menu-btn" onclick="toggleMenu()">☰</button>
+            <div class="dropdown" id="dropdown-menu">
+                <button onclick="location.href='Underconstruction Inventory.html'">INVENTORY</button>
+                <button onclick="location.href='Underconstruction Search.html'">SEARCH</button>
+                <button onclick="location.href='Underconstruction Evaluation.html'">EVALUATION</button>
+                <button onclick="location.href='PSMD MAIN.html'">PSMD MAIN</button>
+            </div>
+        </div>
+        <span class="header-title">PSMD: PRICE INDEX</span>
+        <div class="top-buttons">
+            <button>HOME</button>
+            <button>CONTACT</button>
+            <button>LOG OUT</button>
+        </div>
+    </div>
+    <div class="user-info">FULL NAME <br> DIVISION ASSIGNED</div>
+    <div class="container">
+        <div class="sidebar">
+            <label>ID</label>
+            <input type="text" id="itemId" readonly>
+            <label>ITEM NAME</label>
+            <input type="text">
+            <label>DESCRIPTION</label>
+            <textarea></textarea>
+            <label>UOI</label>
+            <input type="text">
+            <label>PRICE (1)</label>
+            <input type="text" id="price1" oninput="validatePriceInput(this)">
+            <label>SOURCE (1)</label>
+            <input type="text">
+            <label>PRICE (2)</label>
+            <input type="text" id="price1" oninput="validatePriceInput(this)">
+            <label>SOURCE (2)</label>
+            <input type="text">
+            <label>PRICE (3)</label>
+            <input type="text" id="price3" oninput="validatePriceInput(this)">
+            <label>SOURCE (3)</label>
+            <input type="text">
+            <div class="button-group">
+               <button onclick="addItem()">ADD ITEM</button>
+            <button onclick="updateItem()" id="updateBtn" disabled>UPDATE ITEM</button>
+            </div>
+        </div>
+        <div class="content">
+            <div class="search-container">
+                 <input type="text" placeholder="Search Item Name" onkeyup="searchItems()">
+                <input type="text" placeholder="Search Item Description" onkeyup="searchItems()">
+            </div>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>ITEM</th>
+                            <th>DESCRIPTION</th>
+                            <th>UOI</th>
+                            <th>PRICE (1)</th>
+                            <th>SOURCE (1)</th>
+                            <th>PRICE (2)</th>
+                            <th>SOURCE (2)</th>
+                            <th>PRICE (3)</th>
+                            <th>SOURCE (3)</th>
+                            <th>ACTION</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script>
+    let items = [];
+    let currentEditIndex = null;
+    let userRole = "Admin";
+
+    function addItem() {
+        let id = (items.length + 1).toString().padStart(3, "0"); // Auto-format to 001, 002, 003
+        let itemName = document.querySelector(".sidebar input:nth-of-type(2)").value;
+        let description = document.querySelector(".sidebar textarea").value;
+        let uoi = document.querySelector(".sidebar input:nth-of-type(3)").value;
+        let price1 = document.querySelector(".sidebar input:nth-of-type(4)").value;
+        let source1 = document.querySelector(".sidebar input:nth-of-type(5)").value;
+        let price2 = document.querySelector(".sidebar input:nth-of-type(6)").value;
+        let source2 = document.querySelector(".sidebar input:nth-of-type(7)").value;
+        let price3 = document.querySelector(".sidebar input:nth-of-type(8)").value;
+        let source3 = document.querySelector(".sidebar input:nth-of-type(9)").value;
+
+        if (!itemName || !description) {
+            alert("Item Name and Description are Required!");
+            return;
+        }
+
+        let newItem = {
+            id, itemName, description, uoi,
+            price1, source1, price2, source2, price3, source3
+        };
+        items.push(newItem);
+        renderTable();
+        clearForm();
+    }
+
+    function renderTable() {
+    let tableBody = document.getElementById("tableBody");
+    tableBody.innerHTML = ""; // Clear existing table data bago mag-repopulate
+
+    items.forEach((item, index) => {
+        let row = `<tr>
+            <td>${item.id}</td>
+            <td>${item.itemName}</td>
+            <td>${item.description}</td>
+            <td>${item.uoi}</td>
+            <td>${formatPrice(item.price1)}</td>
+            <td>${formatSource(item.source1)}</td>
+            <td>${formatPrice(item.price2)}</td>
+            <td>${formatSource(item.source2)}</td>
+            <td>${formatPrice(item.price3)}</td>
+            <td>${formatSource(item.source3)}</td>
+            <td>
+                <button onclick="editItem(${index})">Edit</button>
+                ${userRole === "Admin" ? `<button onclick="deleteItem(${index})" class="delete-btn">Delete</button>` : ""}
+            </td>
+        </tr>`;
+        tableBody.innerHTML += row;
+    });
+}
+
+// Helper function to format sources as clickable links
+function formatSource(source) {
+    if (source && source.startsWith("http")) {
+        return `<a href="${source}" target="_blank">Click Here</a>`;
+    }
+    return source || "-"; // Display "-" if empty
+}
+
+function editItem(index) {
+    currentEditIndex = index;
+    let item = items[index];
+
+    document.getElementById("itemId").value = item.id;
+    document.querySelector(".sidebar input:nth-of-type(2)").value = item.itemName;
+    document.querySelector(".sidebar textarea").value = item.description;
+    document.querySelector(".sidebar input:nth-of-type(3)").value = item.uoi;
+    document.querySelector(".sidebar input:nth-of-type(4)").value = item.price1;
+    document.querySelector(".sidebar input:nth-of-type(5)").value = item.source1;
+    document.querySelector(".sidebar input:nth-of-type(6)").value = item.price2;
+    document.querySelector(".sidebar input:nth-of-type(7)").value = item.source2;
+    document.querySelector(".sidebar input:nth-of-type(8)").value = item.price3;
+    document.querySelector(".sidebar input:nth-of-type(9)").value = item.source3;
+
+    document.getElementById("updateBtn").disabled = false;
+}
+
+   function updateItem() {
+    if (currentEditIndex === null) return;
+
+    let item = items[currentEditIndex];
+    item.id = document.getElementById("itemId").value; // Keep the ID
+    item.itemName = document.querySelector(".sidebar input:nth-of-type(2)").value;
+    item.description = document.querySelector(".sidebar textarea").value;
+    item.uoi = document.querySelector(".sidebar input:nth-of-type(3)").value;
+    item.price1 = document.querySelector(".sidebar input:nth-of-type(4)").value;
+    item.source1 = document.querySelector(".sidebar input:nth-of-type(5)").value;
+    item.price2 = document.querySelector(".sidebar input:nth-of-type(6)").value;
+    item.source2 = document.querySelector(".sidebar input:nth-of-type(7)").value;
+    item.price3 = document.querySelector(".sidebar input:nth-of-type(8)").value;
+    item.source3 = document.querySelector(".sidebar input:nth-of-type(9)").value;
+
+    renderTable();
+    clearForm();
+}
+
+function deleteItem(index) {
+    if (userRole !== "Admin") {
+        alert("You are not authorized to delete.");
+        return;
+    }
+
+    let confirmDelete = confirm("Are you sure you want to delete this item?");
+    if (!confirmDelete) return;
+
+    items.splice(index, 1);
+    renderTable();
+    }
+
+    function searchItems() {
+        let searchText = document.querySelector(".search-container input:nth-of-type(1)").value.toLowerCase();
+        let searchDesc = document.querySelector(".search-container input:nth-of-type(2)").value.toLowerCase();
+        let filteredItems = items.filter(item => 
+            item.itemName.toLowerCase().includes(searchText) &&
+            item.description.toLowerCase().includes(searchDesc)
+        );
+
+        let tableBody = document.getElementById("tableBody");
+        tableBody.innerHTML = "";
+        filteredItems.forEach((item, index) => {
+            let row = `<tr>
+                <td>${item.id}</td>
+                <td>${item.itemName}</td>
+                <td>${item.description}</td>
+                <td>${item.uoi}</td>
+                <td>${formatPrice(item.price1)}</td>
+                <td>${formatSource(item.source1)}</td>
+                <td>${formatPrice(item.price2)}</td>
+                <td>${formatSource(item.source2)}</td>
+                <td>${formatPrice(item.price3)}</td>
+                <td>${formatSource(item.source3)}</td>
+                <td>
+                    <button onclick="editItem(${index})">Edit</button>
+                    ${userRole === "Admin" ? `<button onclick="deleteItem(${index})" class="delete-btn">Delete</button>` : ""}
+                </td>
+            </tr>`;
+            tableBody.innerHTML += row;
+        });
+    }
+
+   function clearForm() {
+    document.getElementById("itemId").value = ""; // Reset ID field
+    document.querySelector(".sidebar input:nth-of-type(2)").value = "";
+    document.querySelector(".sidebar textarea").value = "";
+    document.querySelector(".sidebar input:nth-of-type(3)").value = "";
+    document.querySelector(".sidebar input:nth-of-type(4)").value = "";
+    document.querySelector(".sidebar input:nth-of-type(5)").value = "";
+    document.querySelector(".sidebar input:nth-of-type(6)").value = "";
+    document.querySelector(".sidebar input:nth-of-type(7)").value = "";
+    document.querySelector(".sidebar input:nth-of-type(8)").value = "";
+    document.querySelector(".sidebar input:nth-of-type(9)").value = "";
+    currentEditIndex = null;
+    document.getElementById("updateBtn").disabled = true;
+    }
+    function validatePriceInput(input) {
+    // Alisin ang non-numeric characters maliban sa decimal point
+    input.value = input.value.replace(/[^0-9.]/g, '');
+}
+function formatPrice(price) {
+    if (!price) return "-"; // Kung walang value, ipakita "-"
+    let num = parseFloat(price);
+    return isNaN(num) ? "-" : `₱${num.toLocaleString("en-PH", { minimumFractionDigits: 2 })}`;
+    }
+    
+</script>
+
+</body>
+</html>
+
+
+

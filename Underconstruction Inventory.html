@@ -1,0 +1,429 @@
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PSMD:INVENTORY</title>
+    <style>
+        body {
+            font-family: Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            padding-top: 80px;
+            background-image: url('PSMD BG.png'); 
+    		background-size: cover;
+    		background-position: center; 
+    		background-repeat: no-repeat; 
+    		background-attachment: fixed;
+            }        
+            .header {
+            background: rgba(4,56,106,255);
+            color: white;
+            font-size: 56.6px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 13px 20px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            border-bottom: 3px solid black;
+        }
+        .header-title {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 56.6px;
+            font-weight: bold;
+        }
+        .menu-container {
+            display: flex;
+            align-items: center;
+        }
+        .menu-btn {
+            font-size: 30px;
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+        }
+        .dropdown {
+    		display: none;
+    		position: absolute;
+    		top: 100%;
+    		left: 10px;
+    		background: #04386a;
+    		border: 1px solid white; 
+    		border-radius: 5px;
+    		box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+    		width: 150px;
+        }
+        .dropdown button {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            background: #04386a;
+            text-align: left;
+            cursor: pointer;
+            font-size: 20px;
+            font-weight: bold;
+            color: white;
+            transition: all 0.3s ease-in-out;
+            border: 1px solid white;
+        }
+        .dropdown button:hover {
+            background: #3a8fd5;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+    		transform: scale(1.05); 
+        }
+        .top-buttons {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            padding-right: 40px;
+        }
+        .top-buttons button {
+            background: #57a8eb;
+            color: white;
+            border: none;
+            padding: 15px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 18px;
+            font-weight: bold;
+            }
+            .user-info {
+            position: absolute;
+            right: 0px;
+            top: 80px;
+            background: #d3d3d3;
+            padding: 15px;
+            font-style: italic;
+            }
+        .container {
+            display: flex;
+            gap: 100px;
+            align-items: flex-start;
+                   
+        }
+        .form-container {
+            background: rgba(4,56,106,0.8);
+            padding: 15px;
+            border-radius: 1px;
+            box-shadow: 0px 0px 10px #ccc;
+            border: 2px solid black;
+            margin-top: 80px;
+            margin-left: 200px;
+            width: 35%; 
+        }
+        .table-container {
+            width: 40%;
+            background: rgba(4,56,106,0.8);
+            padding: 15px;
+            border-radius: 1px;
+            box-shadow: 0px 0px 10px #ccc;
+            border: 2px solid black;
+            margin-top: 80px;
+            color: white;
+            }
+            .form-container label, .table-container label {
+    		color: white;
+    		font-size: 12px;
+    		display: block; 
+    		margin-top: 1px;
+        }
+        .input-field {
+            width: 99%;
+            padding: 4px;
+            margin: 5px auto;
+            border: 1px solid black;
+            border-radius: 4px;
+            display: block;
+            justify-content: center;
+        }
+        .button {
+            background-color: #57a8eb;
+            color: white;
+            font-weight: bold;
+            padding: 6px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+            border-radius: 4px;
+            border: 2px solid black;
+            transition: all 0.3s ease-in-out;
+            font-size: 14px;
+        }
+        .button:hover {
+            background: #3a8fd5; 
+    	box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3); 
+    	transform: scale(1.05);
+        }
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            background-color: rgba(255, 255, 255, 0.8);
+
+        }
+        .table th, .table td {
+            border: 1px solid black;
+            padding: 5px;
+            text-align: center;
+            font-size: 12px;
+        }
+        .table th {
+            background-color: #04386a;
+            color: white;
+            font-size: 12px;
+            border: 1px solid black;
+        }
+        .filter-container {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .filter-container input {
+            width: 45%;
+        }
+        .filter-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin-top: 10px;
+        }
+        .filter-buttons button {
+            flex: 1;
+            padding: 8px;
+        }   
+        .search-input {
+        font-size: 20px; 
+        font-weight: bold; 
+            padding: 6px;   
+        }
+    </style>
+    <script>
+        function toggleMenu() {
+            var menu = document.getElementById("dropdown-menu");
+            menu.style.display = (menu.style.display === "block") ? "none" : "block";
+        }
+        window.onclick = function(event) {
+            if (!event.target.matches('.menu-btn')) {
+                var dropdowns = document.getElementsByClassName("dropdown");
+                for (var i = 0; i < dropdowns.length; i++) {
+                    var openDropdown = dropdowns[i];
+                    if (openDropdown.style.display === "block") {
+                        openDropdown.style.display = "none";
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body>
+  <div class="header">
+        <div class="menu-container">
+            <button class="menu-btn" onclick="toggleMenu()">☰</button>
+            <div class="dropdown" id="dropdown-menu">
+                <button onclick="location.href='Underconstruction Search.html'">SEARCH</button>
+                <button onclick="location.href='Underconstruction Evaluation.html'">EVALUATION</button>
+                <button onclick="location.href='Underconstruction Price Index.html'">PRICE INDEX</button>
+                <button onclick="location.href='PSMD MAIN.html'">PSMD MAIN</button>
+                
+            </div>
+        </div>
+        <span class="header-title">PSMD: INVENTORY</span>
+        <div class="top-buttons">
+            <button>HOME</button>
+            <button>CONTACT</button>
+            <button>LOG OUT</button>
+        </div>
+    </div>
+    <div class="user-info">FULL NAME <br> DIVISION ASSIGNED</div>
+    <div class="container">
+        <!-- Form Section -->
+        <div class="form-container">
+
+            <input type="text" class="input-field search-input" placeholder="Search Project Number...">
+
+            <div style="display: flex; gap: 10px;">
+                <button class="button">SAVE</button>
+                
+
+            </div>
+
+            <label>ID</label>
+            <input type="text" class="input-field" placeholder="(New)" readonly>
+
+            <label>PR NUMBER</label>
+            <input type="text" class="input-field">
+
+            <label>ABC</label>
+            <input type="text" class="input-field">
+
+            <label>OFFICE</label>
+            <input type="text" class="input-field">
+
+            <label>EXPENDITURE</label>
+            <input type="text" class="input-field">
+
+            <label>DESCRIPTION</label>
+            <textarea class="input-field" rows="3"></textarea>
+
+            <label>CANVASSER 1</label>
+            <select class="input-field">
+                <option value="">Select Canvasser</option>
+                <option value="Izarah R. Bangquillo">Izarah R. Bangquillo</option>
+                <option value="Jayson Marvin M. Bautista, RN, MMPA">Jayson Marvin M. Bautista, RN, MMPA</option>
+                <option value="Mc James V. De Leon">Mc James V. De Leon</option>
+                <option value="Gerard Gerald T. Galon">Gerard Gerald T. Galon</option>
+                <option value="Jograce B. Habacon">Jograce B. Habacon</option>
+                <option value="Joan E. Jardinero">Joan E. Jardinero</option>
+                <option value="Christoffer Charles D. Lomibao">Christoffer Charles D. Lomibao</option>
+                <option value="Camille Jean F. Malanum">Camille Jean F. Malanum</option>
+                <option value="Ellis Dewald M. Mallen">Ellis Dewald M. Mallen</option>
+                <option value="Mark Bryan Marino">Mark Bryan Marino</option>
+                <option value="Ellaine B. Matarundo">Ellaine B. Matarundo</option>
+                <option value="Jasmin Loy-a Montoya">Jasmin Loy-a Montoya</option>
+                <option value="Mary Anne D. Quinagon-Oximas">Mary Anne D. Quinagon-Oximas</option>
+                <option value="Marginiph M. Pedrosa">Marginiph M. Pedrosa</option>
+                <option value="Mark John Paul Santos">Mark John Paul Santos</option>
+
+
+            </select>
+
+            <label>CANVASSER 2</label>
+            <select class="input-field">
+               <option value="">Select Canvasser</option>
+                <option value="Izarah R. Bangquillo">Izarah R. Bangquillo</option>
+                <option value="Jayson Marvin M. Bautista, RN, MMPA">Jayson Marvin M. Bautista, RN, MMPA</option>
+                <option value="Mc James V. De Leon">Mc James V. De Leon</option>
+                <option value="Gerard Gerald T. Galon">Gerard Gerald T. Galon</option>
+                <option value="Jograce B. Habacon">Jograce B. Habacon</option>
+                <option value="Joan E. Jardinero">Joan E. Jardinero</option>
+                <option value="Christoffer Charles D. Lomibao">Christoffer Charles D. Lomibao</option>
+                <option value="Camille Jean F. Malanum">Camille Jean F. Malanum</option>
+                <option value="Ellis Dewald M. Mallen">Ellis Dewald M. Mallen</option>
+                <option value="Mark Bryan Marino">Mark Bryan Marino</option>
+                <option value="Ellaine B. Matarundo">Ellaine B. Matarundo</option>
+                <option value="Jasmin Loy-a Montoya">Jasmin Loy-a Montoya</option>
+                <option value="Mary Anne D. Quinagon-Oximas">Mary Anne D. Quinagon-Oximas</option>
+                <option value="Marginiph M. Pedrosa">Marginiph M. Pedrosa</option>
+                <option value="Mark John Paul Santos">Mark John Paul Santos</option>
+            </select>
+
+            <label>STATUS</label>
+            <input type="text" class="input-field">
+
+            <label>START / END</label>
+            <div class="filter-container">
+                <input type="date" class="input-field">
+                <input type="date" class="input-field">
+            </div>
+
+            <label>NOTES</label>
+            <textarea class="input-field" rows="4"></textarea>
+        </div>
+
+        <!-- Status Update & Table Section -->
+        <div class="table-container">
+            <button class="button">UPDATE STATUS</button>
+            <select class="input-field">
+                <option>RECEIVED FROM DMD</option>
+                <option>FOR COMPLIANCE</option>
+                <option>COMPLETED</option>
+                <option>ADVANCED COPY</option>
+                <option>FOR EVALUATION</option>
+                <option>RETURN TO CANVASSER</option>
+                <option>RELEASED TO TSD</option>
+                <option>ADV. COPY RELEASED TO TSD</option>
+                <option>FOR RECANVASS</option>
+                <option>REVALIDATED</option>
+                <option>RETURNED TO TSD</option>
+                <option>RETURNED TO DMD</option>
+            </select>
+
+            <h3>Status Update History</h3>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>STATUS</th>
+                        <th>USER</th>
+                        <th>STATUS DATE</th>
+                        <th>END DATE</th>
+                        <th>DAYS</th>
+                    </tr>
+                </thead>
+                <tbody>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+
+                    </tr>
+                </tbody>
+            </table>
+                    <!-- Status updates will be dynamically inserted here -->
+                </tbody>
+            </table>
+
+            <!-- New Table Above Print Release Button -->
+            <h3> </h3>
+            <table class="table">
+            </table>
+			<button class="button">PRINT RELEASE</button>
+            <select class="input-field">
+                 <option value="">Select Canvasser</option>
+                <option value="Izarah R. Bangquillo">Izarah R. Bangquillo</option>
+                <option value="Jayson Marvin M. Bautista, RN, MMPA">Jayson Marvin M. Bautista, RN, MMPA</option>
+                <option value="Mc James V. De Leon">Mc James V. De Leon</option>
+                <option value="Gerard Gerald T. Galon">Gerard Gerald T. Galon</option>
+                <option value="Jograce B. Habacon">Jograce B. Habacon</option>
+                <option value="Joan E. Jardinero">Joan E. Jardinero</option>
+                <option value="Christoffer Charles D. Lomibao">Christoffer Charles D. Lomibao</option>
+                <option value="Camille Jean F. Malanum">Camille Jean F. Malanum</option>
+                <option value="Ellis Dewald M. Mallen">Ellis Dewald M. Mallen</option>
+                <option value="Mark Bryan Marino">Mark Bryan Marino</option>
+                <option value="Ellaine B. Matarundo">Ellaine B. Matarundo</option>
+                <option value="Jasmin Loy-a Montoya">Jasmin Loy-a Montoya</option>
+                <option value="Mary Anne D. Quinagon-Oximas">Mary Anne D. Quinagon-Oximas</option>
+                <option value="Marginiph M. Pedrosa">Marginiph M. Pedrosa</option>
+                <option value="Mark John Paul Santos">Mark John Paul Santos</option>
+            </select>
+            
+
+            <!-- Filtering Section -->
+            <div class="filter-container">
+                <label>FROM:</label>
+                <input type="date" class="input-field">
+                <label>TO:</label>
+                <input type="date" class="input-field">
+            </div>
+
+            <div class="filter-buttons">
+                <button class="button">ONGOING</button>
+                <button class="button">ALL - ONGOING</button>
+                <button class="button">RECEIVED TODAY</button>
+                <button class="button">RELEASED TODAY</button>
+                
+                
+        
+    </div>
+</body>
+</html>
+
+
+
+
+
